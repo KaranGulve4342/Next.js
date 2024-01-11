@@ -1,15 +1,30 @@
 import Image from "next/image"
 import styles from "./singlePost.module.css"
 
+const getData = async(slug) => {
+  // const res = await fetch("https://jsonplaceholder.typicode.com/posts", {cache: "no-store"}); // always fetching data while directing to blog page
+  // const res = await fetch("https://jsonplaceholder.typicode.com/posts", {next:{revalidate:3600}}); // use for fetching blog data in every one hour
+  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${slug}`); // use for fetching blog data in every one hour
 
-const SinglePostPage = () => {
+  if(!res.ok){
+    throw new Error("Something went wrong");
+  }
+
+  return res.json();
+};
+
+
+const SinglePostPage = async({params}) => {
+  const {slug} = params;
+  const post = await getData(slug);
+
   return (
     <div className={styles.container}>
       <div className={styles.imgContainer}>
         <Image className={styles.img} src="https://images.pexels.com/photos/50594/sea-bay-waterfront-beach-50594.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" fill />
       </div>
       <div className={styles.textContainer}>
-        <h1 className={styles.title}>Title</h1>
+        <h1 className={styles.title}>{post.title}</h1>
         <div className={styles.detail}>
           <Image className={styles.avatar} src="https://images.pexels.com/photos/85773/pexels-photo-85773.jpeg" alt="" 
           height={50} width={50} />
@@ -26,7 +41,7 @@ const SinglePostPage = () => {
         </div>
 
         <div className={styles.content}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          {post.body}
         </div>
       </div>
     </div>
