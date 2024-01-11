@@ -18,9 +18,9 @@ const ContactPage = () => {
   //   setIsClient(true);
   // }, []);
 
-  const a = Math.random();
+  // const a = Math.random();
   
-  console.log(a);
+  // console.log(a);
 
   
 
@@ -32,7 +32,7 @@ const ContactPage = () => {
       <div className={styles.formContainer}>
         {/* {isClient && a} */}
         {/* < HydrationTestNoSSR /> */}
-        <div suppressHydrationWarning>{a}</div>
+        {/* <div suppressHydrationWarning>{a}</div> */}
         <form action="" className={styles.form}>
           <input type="text" placeholder="Name and Surname" />
           <input type="text" placeholder="Email Address" />
