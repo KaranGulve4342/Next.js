@@ -2,23 +2,30 @@ import Image from "next/image"
 import styles from "./singlePost.module.css"
 import postUser from "@/components/postUser/postUser";
 import { Suspense } from "react";
+import { getPost } from "@/lib/data";
 
-const getData = async(slug) => {
-  // const res = await fetch("https://jsonplaceholder.typicode.com/posts", {cache: "no-store"}); // always fetching data while directing to blog page
-  // const res = await fetch("https://jsonplaceholder.typicode.com/posts", {next:{revalidate:3600}}); // use for fetching blog data in every one hour
-  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${slug}`); // use for fetching blog data in every one hour
+// FETCH DATA WITH AN API
 
-  if(!res.ok){
-    throw new Error("Something went wrong");
-  }
+// const getData = async(slug) => {
+//   // const res = await fetch("https://jsonplaceholder.typicode.com/posts", {cache: "no-store"}); // always fetching data while directing to blog page
+//   // const res = await fetch("https://jsonplaceholder.typicode.com/posts", {next:{revalidate:3600}}); // use for fetching blog data in every one hour
+//   const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${slug}`); // use for fetching blog data in every one hour
 
-  return res.json();
-};
+//   if(!res.ok){
+//     throw new Error("Something went wrong");
+//   }
+
+//   return res.json();
+// };
 
 
 const SinglePostPage = async({params}) => {
   const {slug} = params;
-  const post = await getData(slug);
+  // FETCH DATA WITH AN API
+  // const post = await getData(slug);
+
+  // FETCH DATA WITHOUT AN API
+  const post = await getPost(slug);
 
   return (
     <div className={styles.container}>
@@ -26,12 +33,10 @@ const SinglePostPage = async({params}) => {
         <Image className={styles.img} src="https://images.pexels.com/photos/50594/sea-bay-waterfront-beach-50594.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" fill />
       </div>
       <div className={styles.textContainer}>
-        <h1 className={styles.title}>{post.title}</h1>
+        <h1 className={styles.title}>{post?.title}</h1>
         <div className={styles.detail}>
           <Image className={styles.avatar} src="https://images.pexels.com/photos/85773/pexels-photo-85773.jpeg" alt="" 
           height={50} width={50} />
-
-
 
           {/* <div className={styles.detailText}>
             <span className={styles.detailTitle}>Author</span>
@@ -41,6 +46,8 @@ const SinglePostPage = async({params}) => {
           <Suspense fallback={<div>Loading...</div>}>
             <postUser userId = {post.userId}/>
           </Suspense>
+
+
 
 
           <div className={styles.detailText}>

@@ -1,20 +1,27 @@
 import PostCard from "@/components/postCard/postCard"
 import styles from "./blog.module.css"
+import { getPosts } from "@/lib/data";
 
-const getData = async() => {
-  // const res = await fetch("https://jsonplaceholder.typicode.com/posts", {cache: "no-store"}); // always fetching data while directing to blog page
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts", {next:{revalidate:3600}}); // use for fetching blog data in every one hour
+// FETCH DATA WITH AN API
 
-  if(!res.ok){
-    throw new Error("Something went wrong");
-  }
+// const getData = async() => {
+//   // const res = await fetch("https://jsonplaceholder.typicode.com/posts", {cache: "no-store"}); // always fetching data while directing to blog page
+//   const res = await fetch("https://jsonplaceholder.typicode.com/posts", {next:{revalidate:3600}}); // use for fetching blog data in every one hour
 
-  return res.json();
-};
+//   if(!res.ok){
+//     throw new Error("Something went wrong");
+//   }
 
-const blogPage =async() => {
+//   return res.json();
+// };
 
-  const posts = await getData();
+const BlogPage = async () => {
+
+  // FETCH DATA WITH AN API
+  // const posts = await getData();
+
+  // FETCH DATA WITHOUT AN API
+  const posts = await getPosts();
 
   return (
     <div className={styles.container}>
@@ -23,20 +30,8 @@ const blogPage =async() => {
           <PostCard post={post} />
         </div>
       ))}
-      
-
-
-      {/* <div className={styles.post}>
-        <PostCard />
-      </div>
-      <div className={styles.post}>
-        <PostCard />
-      </div>
-      <div className={styles.post}>
-        <PostCard />
-      </div> */}
     </div>
-  )
-}
+  );
+};
 
-export default blogPage
+export default BlogPage;
